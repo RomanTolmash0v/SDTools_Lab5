@@ -1,0 +1,35 @@
+name: Unit testing
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  unit-test:
+    strategy:
+      fail-fast: false
+      matrix: 
+        os: [windows-latest, ubuntu-latest]
+        python-version: ["3.14"]
+    
+    runs-on: ${{ matrix.os }}
+
+    name: Tests ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Testing
+        run: python -m unittest discover
+
+      - name: Important Job
+        uses: TejasvOnly/random-rickroll@v1.0
+        with:
+         percentage: 100
